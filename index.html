@@ -505,30 +505,42 @@ document.querySelectorAll('.ntb').forEach(function(b){
 function goS(n){var b=document.querySelector('[data-s="'+n+'"]');if(b)b.click();}
 
 // ═══════════════════════════════════════════
-// GOOGLE SHEETS — leitor via JSONP
+// GOOGLE SHEETS — leitor via fetch CSV
 // ═══════════════════════════════════════════
 function fetchSheet(sid,sname){
   return new Promise(function(res,rej){
-    var cb='gc'+Date.now()+'x'+Math.floor(Math.random()*9999);
-    var url='https://docs.google.com/spreadsheets/d/'+sid+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(sname)+'&cb='+cb;
-    var sc=document.createElement('script');sc.src=url;
-    var t=setTimeout(function(){cleanup();rej(new Error('Tempo esgotado. Verifique se a planilha está pública.'));},10000);
-    function cleanup(){clearTimeout(t);try{delete window[cb];}catch(e){}if(sc.parentNode)sc.parentNode.removeChild(sc);}
-    window[cb]=function(data){
-      cleanup();
-      try{
-        var cols=data.table.cols.map(function(c){return(c.label||'').trim().toLowerCase().replace(/\s+/g,'_');});
-        var rows=(data.table.rows||[]).map(function(row){
+    var url='https://docs.google.com/spreadsheets/d/'+sid+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(sname);
+    fetch(url)
+      .then(function(r){
+        if(!r.ok) throw new Error('Planilha não encontrada ou sem permissão pública.');
+        return r.text();
+      })
+      .then(function(text){
+        var lines=text.trim().split('\n');
+        if(lines.length<2){res([]);return;}
+        var headers=parseCSVLine(lines[0]).map(function(h){return h.replace(/^"|"$/g,'').trim().toLowerCase().replace(/\s+/g,'_');});
+        var rows=lines.slice(1).map(function(line){
+          var vals=parseCSVLine(line);
           var obj={};
-          cols.forEach(function(col,i){obj[col]=row.c&&row.c[i]&&row.c[i].v!=null?String(row.c[i].v).trim():'';});
+          headers.forEach(function(h,i){obj[h]=(vals[i]||'').replace(/^"|"$/g,'').trim();});
           return obj;
         }).filter(function(r){return Object.values(r).some(function(v){return v;});});
         res(rows);
-      }catch(e){rej(new Error('Erro ao processar dados da planilha.'));}
-    };
-    sc.onerror=function(){cleanup();rej(new Error('Planilha não encontrada ou sem permissão pública.'));};
-    document.head.appendChild(sc);
+      })
+      .catch(function(e){rej(new Error(e.message||'Erro ao carregar planilha.'));});
   });
+}
+
+function parseCSVLine(line){
+  var result=[],cur='',inQ=false;
+  for(var i=0;i<line.length;i++){
+    var c=line[i];
+    if(c==='"'){inQ=!inQ;}
+    else if(c===','&&!inQ){result.push(cur);cur='';}
+    else{cur+=c;}
+  }
+  result.push(cur);
+  return result;
 }
 
 function saveS(t){
