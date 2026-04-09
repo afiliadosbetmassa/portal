@@ -208,6 +208,10 @@ main{flex:1;max-width:1200px;width:100%;margin:0 auto;padding:40px}
 .cbtn{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:3px;font-size:10px;font-weight:700;text-decoration:none;transition:all .2s;letter-spacing:1px;text-transform:uppercase;font-family:'Poppins',sans-serif}
 .cbtn.wa{background:#25d366;color:#000;box-shadow:0 0 12px rgba(37,211,102,0.2)}
 .cbtn.wa:hover{box-shadow:0 0 20px rgba(37,211,102,0.4)}
+.cbtn.ig{background:#E1306C;color:#fff;box-shadow:0 0 12px rgba(225,48,108,0.2)}
+.cbtn.ig:hover{box-shadow:0 0 20px rgba(225,48,108,0.4)}
+.cbtn.tg{background:#0088cc;color:#fff;box-shadow:0 0 12px rgba(0,136,204,0.2)}
+.cbtn.tg:hover{box-shadow:0 0 20px rgba(0,136,204,0.4)}
 
 /* ── MODALS ── */
 .mov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(10px)}
@@ -316,7 +320,11 @@ main{flex:1;max-width:1200px;width:100%;margin:0 auto;padding:40px}
       </div>
       <div class="wa-bar">
         <div class="wt"><h4>💬 Ficou com dúvidas?</h4><p>Entre em contato com seu gerente.</p></div>
-        <a href="https://wa.me/5581996996987" target="_blank">ABRIR WHATSAPP</a>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="https://wa.me/5581996996987" target="_blank">WHATSAPP</a>
+          <a href="https://www.instagram.com/bet.massa/" target="_blank" style="background:#E1306C;box-shadow:0 0 14px rgba(225,48,108,0.25)">INSTAGRAM</a>
+          <a href="https://t.me/+_TiAy0LCDpgwOTNh" target="_blank" style="background:#0088cc;box-shadow:0 0 14px rgba(0,136,204,0.25)">TELEGRAM</a>
+        </div>
       </div>
     </div>
 
@@ -364,7 +372,11 @@ main{flex:1;max-width:1200px;width:100%;margin:0 auto;padding:40px}
       <div class="fql" id="fql"></div>
       <div class="cct">
         <div><h3>Ficou com dúvidas?</h3><p>Entre em contato com seu gerente.</p></div>
-        <div class="cbs"><a class="cbtn wa" href="https://wa.me/5581996996987" target="_blank">💬 WhatsApp</a></div>
+        <div class="cbs">
+          <a class="cbtn wa" href="https://wa.me/5581996996987" target="_blank">💬 WhatsApp</a>
+          <a class="cbtn ig" href="https://www.instagram.com/bet.massa/" target="_blank">📸 Instagram</a>
+          <a class="cbtn tg" href="https://t.me/+_TiAy0LCDpgwOTNh" target="_blank">✈️ Telegram</a>
+        </div>
       </div>
     </div>
 
@@ -419,7 +431,7 @@ var USERS = {
 // ═══════════════════════════════════════════
 // ESTADO
 // ═══════════════════════════════════════════
-var cu = null, rmb = false, acat = 'Todos', asub = 'Todos', allV = [], allM = [], sidV = '', sidM = '';
+var cu = null, rmb = false, acat = 'Todos', asub = 'Todos', allV = [], allM = [], sidV = '192u5QnYYHmYqhUBMDCeVH-aPy0yZQyOANnzIUzqnroo', sidM = '192u5QnYYHmYqhUBMDCeVH-aPy0yZQyOANnzIUzqnroo';
 
 var CATS = ['Todos','Cassino','Esportes','Promoções','Depósito','Saque','Compliance'];
 var CICO = {Todos:'🗂',Cassino:'🎰',Esportes:'⚽','Promoções':'🎁','Depósito':'💳','Saque':'⚡','Compliance':'🛡'};
@@ -483,8 +495,8 @@ function launch(){
   document.getElementById('uname').textContent=cu.name;
   var isA=cu.role==='admin';
   ['avc','avh','amc','ambt'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=isA?'':'none';});
-  if(sidV){try{document.getElementById('sid-v').value=sidV;}catch(e){}}
-  if(sidM){try{document.getElementById('sid-m').value=sidM;}catch(e){}}
+  sidV='192u5QnYYHmYqhUBMDCeVH-aPy0yZQyOANnzIUzqnroo';try{document.getElementById('sid-v').value=sidV;}catch(e){}
+  sidM='192u5QnYYHmYqhUBMDCeVH-aPy0yZQyOANnzIUzqnroo';try{document.getElementById('sid-m').value=sidM;}catch(e){}
   renderFaq();loadV();loadM();
   document.getElementById('sl').classList.remove('on');
   document.getElementById('sp').classList.add('on');
